@@ -22,18 +22,17 @@ public class OrderService {
 //    @Resource
 //    private RedisTemplate redisTemplate;
     @Resource
-    private RedisTemplate redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
     public void addOrder(){
         int keyId= ThreadLocalRandom.current().nextInt(1000)+1;
         String serialNo= UUID.randomUUID().toString();
         String key=ORDER_KEY+keyId;
         String value="京东订单"+serialNo;
-        redisTemplate.opsForValue().set(key,value);
+        stringRedisTemplate.opsForValue().set(key,value);
         log.info("***key:{}",key);
         log.info("***value:{}",value);
     }
     public String getOrderById(Integer keyId){
-        return (String)redisTemplate.opsForValue().get(ORDER_KEY+keyId);
-
+        return stringRedisTemplate.opsForValue().get(ORDER_KEY+keyId);
     }
 }
